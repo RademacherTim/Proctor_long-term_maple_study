@@ -8,7 +8,7 @@ if(!existsFunction("read_excel")) library("readxl")
 if(!existsFunction("%>%")) library("tidyverse")
 
 # Name of data file with the sugar concentrations ----
-file_name <- "../../Data/LTS-Sugar.xlsx"
+file_name <- "../../Data/LTS-Sugar_concentrations.xlsx"
 
 # Get sample dates from sheet names ----
 dates <- excel_sheets(file_name) [-c(1:2)]
@@ -30,9 +30,12 @@ for (d in dates){
   if (d == dates[1]) {
     SS <- tmp
   } else {
-    SS <- rbind (data, tmp)
+    SS <- rbind (SS, tmp)
   }
 } # end date loop
+
+# Clean-up workspace ----
+rm(tmp)
 
 # Correct dates for a few trees (see comments of data file for reasons) ----
 SS$date[SS$date == as_date("2025-03-05") & SS$tn == 3] <- 
@@ -45,9 +48,9 @@ SS$date[SS$date == as_date("2025-04-03") & SS$tree %in% trees ] <-
   as_date("2025-04-04")
 
 # Get the file name for the growth data 
-file_name <- "../../Data/Long-Term Study - ALL Compiled Tree Growth and Yield Data 2024.xlsx"
+file_name <- "../../Data/LTS-Sugar_yield.xlsx"
 
-# Read date-specific data ----
+# Read mean annual sap sugar concentration data ----
 mSS <- read_excel(
     path = file_name, 
     sheet = "Tree Growth and Yield", 
@@ -65,12 +68,13 @@ mSS <- read_excel(
                   paste0("ssc_", as.character(2014:2025)))
     ) %>% 
   select(-c(2:3, 6:65)) 
-tmp <- mSS %>% 
+
+# Convert the mean-annual sap sugar concentration data into long format ----
+mSS <- mSS %>% 
   pivot_longer(cols = 4:15, 
                names_to = "year", 
                names_prefix = "ssc_", 
                values_to = "ssc") %>%
   mutate(year = as.numeric(year))
 
-    
 #===============================================================================
