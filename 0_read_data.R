@@ -54,20 +54,20 @@ file_name <- "../../Data/LTS-Sugar_yield.xlsx"
 mSS <- read_excel(
     path = file_name, 
     sheet = "Tree Growth and Yield", 
-    range = "A2:BY91",
+    range = "A2:CA91",
     na = "NA",
     col_names = c("t", "t_name", "o_ID", "ID", "i_DBH", "CPC", "CPS", "TH", "LC", 
-                  "MCD", "CD", "CV", "ii_DBH", paste0("dbh_", as.character(2014:2024)),
+                  "MCD", "CD", "CV", "ii_DBH", paste0("dbh_", as.character(2014:2025)),
                   "dg_in", "dg_%", "rg_in", "rg_%", "BAI_ft2", "BAI_%","EM1", "notes21",
                   "i_NAMP", "vigor", "CPS_18", "CPC_18", "LCR_18", "TBM_18", "TBMM_18", 
                   "FT_18", "TH_18", "LC_18", "MCD_18", "CD_18", "CV_18", "note", 
                   "CPC_24", "CPS_24","LCR_24", "TBM_24", "TBMM_24", "FT_24",
                   "EM2", paste0("tc_", as.character(2014:2017)), 
                   paste0("tc2_", as.character(2014:2017)), 
-                  paste0("tc_", as.character(2022:2024)), "EM3", 
+                  paste0("tc_", as.character(2022:2025)), "EM3", 
                   paste0("ssc_", as.character(2014:2025)))
     ) %>% 
-  select(-c(2:3, 6:65)) 
+  select(-c(2:3, 6:67)) 
 
 # Convert the mean-annual sap sugar concentration data into long format ----
 mSS <- mSS %>% 
