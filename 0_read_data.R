@@ -65,8 +65,9 @@ mSS <- read_excel(
                   "EM2", paste0("tc_", as.character(2014:2017)), 
                   paste0("tc2_", as.character(2014:2017)), 
                   paste0("tc_", as.character(2022:2025)), "EM3", 
-                  paste0("ssc_", as.character(2014:2025)))
-    ) %>% 
+                  paste0("ssc_", as.character(2014:2025))),
+    col_types = c("numeric", rep("text", 2), rep("numeric", 2), 
+                  rep("text", 62), rep("numeric", 12))) %>% 
   select(-c(2:3, 6:67)) 
 
 # Convert the mean-annual sap sugar concentration data into long format ----
