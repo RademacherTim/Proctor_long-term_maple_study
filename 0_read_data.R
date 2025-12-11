@@ -79,7 +79,9 @@ mSS <- tmp %>%
                names_to = "year", 
                names_prefix = "ssc_", 
                values_to = "ssc") %>%
-  mutate(year = as.numeric(year))
+  mutate(year = as.numeric(year),
+         ID = as.factor(ID),
+         t = as.factor(t))
 
 # Convert the total annual syrup yield data into long format ----
 sy <- tmp %>% 
@@ -88,9 +90,14 @@ sy <- tmp %>%
                names_to = "year", 
                names_prefix = "sy_", 
                values_to = "sy") %>%
-  mutate(year = as.numeric(year))
+  mutate(year = as.numeric(year),
+         ID = as.factor(ID),
+         t = as.factor(t))
 
 # Calculate sap volume ----
 data <- left_join(mSS, sy, by = c("t", "ID", "i_DBH", "year")) %>%
   mutate(vol_s = sy / ssc)
+
+# Clean workspace ----
+rm(d, dates, file_name, trees, mSS, sy, tmp)
 #===============================================================================
