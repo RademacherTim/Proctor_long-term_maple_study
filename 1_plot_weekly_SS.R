@@ -14,6 +14,10 @@ means2025 <- SS %>% mutate(week = floor_date(date, unit = "week")) %>%
   group_by (tn, week) %>% 
   summarise(m_ssc = mean (ssc, na.rm = TRUE),
             sd_ssc = sd (ssc, na.rm = TRUE), .groups = "keep")
+means2026 <- SS %>% mutate(week = floor_date(date, unit = "week")) %>% 
+  group_by (tn, week) %>% 
+  summarise(m_ssc = mean (ssc, na.rm = TRUE),
+            sd_ssc = sd (ssc, na.rm = TRUE), .groups = "keep")
 
 # Change plot margins ----
 par(mar = c(5, 5, 1, 1))
@@ -90,15 +94,55 @@ points (x = jitter(as.numeric(SS$date[year(SS$date) == 2025 & SS$tn == 4]), amou
 # Overlay the mean on the SS ----
 dates <- as_date(c("2025-03-05", "2025-03-12", "2025-03-19", "2025-03-26", "2025-04-03", "2025-04-10", "2025-04-17"))
 points(x = dates,
-       y = means2025$m_ssc[year(means2025$week) == 2025 & means$tn == 2], 
+       y = means2025$m_ssc[year(means2025$week) == 2025 & means2025$tn == 2], 
        pch = 19,cex = 4, col = "#1f77b4cc")
 points(x = dates,
-       y = means2025$m_ssc[year(means2025$week) == 2025 & means$tn == 4], 
+       y = means2025$m_ssc[year(means2025$week) == 2025 & means2025$tn == 4], 
        pch = 19,cex = 4, col = "#7f7f7fcc")
 dates <- as_date(c("2025-03-06", "2025-03-12", "2025-03-20", "2025-03-26", "2025-04-04", "2025-04-10", "2025-04-17"))
 points(x = dates,
-       y = means2025$m_ssc[year(means2025$week) == 2025 & means$tn == 3], 
+       y = means2025$m_ssc[year(means2025$week) == 2025 & means2025$tn == 3], 
        pch = 19,cex = 4, col = "#ff7f04cc")
 
 
+# plot with pane for 2026 SS ----
+plot (x = SS$date[year(SS$date) == 2026 & SS$tn == 2],
+      y = SS$ssc[year(SS$date) == 2026 & SS$tn == 2],
+      pch = 19, lty = 1, lwd = 0.5, col = "white",
+      axes = FALSE, ylim = c(0, 7),
+      xlab = "", ylab = "Soluble sugar concentration (°Brix)") 
+axis (side = 1, 
+      at = as_date(c("2026-03-06", "2026-03-26", "2026-03-30", "2026-04-08", "2026-04-10")),
+      labels = c("6 Mar", "26 Mar", "30 Mar", "8 Apr", "10 Apr"))
+axis (side = 2, las = 1)
+for (t in unique(SS$tree)){
+  con <- year(SS$date) == 2026 & SS$tree == t 
+  tr <- unique(SS$tn [SS$tree == t])
+  lines (x = SS$date [con],
+         y = SS$ssc [con], 
+         col = ifelse(tr == 2, "#1f77b4aa", ifelse (tr == 3, "#ff7f0eaa", "#7f7f7f")), 
+         lwd = 0.3)
+}
+points (x = jitter(as.numeric(SS$date[year(SS$date) == 2026 & SS$tn == 2]), amount = 0.2),
+        y = SS$ssc[year(SS$date) == 2026 & SS$tn == 2],
+        pch = 19, lty = 1, lwd = 0.5, col = "#1f77b4aa")# Gravity-tapped trees
+points (x = jitter(as.numeric(SS$date[year(SS$date) == 2026 & SS$tn == 3]), amount = 0.2),
+        y = SS$ssc[year(SS$date) == 2026 & SS$tn == 3],
+        pch = 19, lty = 1, lwd = 0.5, col = "#ff7f0eaa")# Vacuum-tapped trees
+points (x = jitter(as.numeric(SS$date[year(SS$date) == 2026 & SS$tn == 4]), amount = 0.2),
+        y = SS$ssc[year(SS$date) == 2026 & SS$tn == 4],
+        pch = 19, lty = 1, lwd = 0.5, col = "#7f7f7faa")# Control trees
+
+# Overlay the mean on the SS ----
+dates <- as_date(c("2026-03-06", "2026-03-26", "2026-03-30", "2026-04-08"))
+#dates <- as_date(c("2026-03-06", "2026-03-26", "2026-03-30", "2026-04-08", "2026-04-10"))
+points(x = dates,
+       y = means2026$m_ssc[year(means2026$week) == 2026 & means2026$tn == 2], 
+       pch = 19,cex = 4, col = "#1f77b4cc")
+points(x = dates,
+       y = means2026$m_ssc[year(means2026$week) == 2026 & means2026$tn == 4], 
+       pch = 19,cex = 4, col = "#7f7f7fcc")
+points(x = dates,
+       y = means2026$m_ssc[year(means2026$week) == 2026 & means2026$tn == 3], 
+       pch = 19,cex = 4, col = "#ff7f04cc")
 #===============================================================================
