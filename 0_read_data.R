@@ -11,7 +11,8 @@ if(!existsFunction("%>%")) library("tidyverse")
 file_name <- "../../Data/LTS-Sugar_concentrations.xlsx"
 
 # Get sample dates from sheet names ----
-dates <- excel_sheets(file_name) [-c(1:2)]
+dates <- excel_sheets(file_name) [-c(1:3)]
+#options(warn = 2)
 
 # Loop over sample dates to read data for each date ----
 for (d in dates){
@@ -46,6 +47,7 @@ trees <- c("871", "873", "874","877", "879", "880", "883", "884", "886", "887",
            "888", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH")
 SS$date[SS$date == as_date("2025-04-03") & SS$tree %in% trees ] <- 
   as_date("2025-04-04")
+# 2026-04-08 fix date for the trees rthat were measured another day
 
 # Get the file name for the growth data 
 file_name <- "../../Data/LTS-Sugar_yield.xlsx"

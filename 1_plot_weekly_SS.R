@@ -2,7 +2,7 @@
 # Script to plot initial SS for exploration
 #-------------------------------------------------------------------------------
 
-# Source SS ----
+# Source weekly and annual sap sugar content (SS and mSS, respectively) ----
 source("0_read_data.R")
 
 # Create treatment means and standard deviations ----
